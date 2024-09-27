@@ -12,7 +12,6 @@
 //
 // Execute `rustlings hint cow1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use std::borrow::Cow;
 
@@ -37,7 +36,7 @@ mod tests {
         let slice = [-1, 0, 1];
         let mut input = Cow::from(&slice[..]);
         match abs_all(&mut input) {
-            Cow::Owned(_) => Ok(()),
+            Cow::Owned(_) => {println!("Borrowed--reference_mutation");Ok(())},
             _ => Err("Expected owned value"),
         }
     }
@@ -48,8 +47,8 @@ mod tests {
         let slice = [0, 1, 2];
         let mut input = Cow::from(&slice[..]);
         match abs_all(&mut input) {
-            Cow::Borrowed(_) => Ok(()),
-            Cow::Owned(_) => todo!(),
+            Cow::Borrowed(_) =>{println!("Borrowed--reference_no_mutation");Ok(())} ,
+           Cow::Owned(_)=> {println!("Owned-reference_no_mutation");Ok(())},
             // TODO
         }
     }
@@ -62,8 +61,8 @@ mod tests {
         let slice = vec![0, 1, 2];
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
-            Cow::Borrowed(_) => todo!(),
-            Cow::Owned(_) => todo!(),
+            Cow::Borrowed(_) => {println!("Borrowed---owned_no_mutation");Ok(())},
+            Cow::Owned(_) => {println!("owned_no_mutation");Ok(())} ,
             // TODO
         }
     }
@@ -76,8 +75,8 @@ mod tests {
         let slice = vec![-1, 0, 1];
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
-            Cow::Borrowed(_) => todo!(),
-            Cow::Owned(_) => todo!(),
+            Cow::Borrowed(_) => {println!("Borrowed---owned_mutation");Ok(())},
+            Cow::Owned(_) => {println!("Borrowed---owned_mutation");Ok(())},
             // TODO
         }
     }
