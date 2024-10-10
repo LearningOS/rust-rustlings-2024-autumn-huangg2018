@@ -2,11 +2,9 @@
 	single linked list merge
 	This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
 */
-// I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
-use std::vec::*;
 
 #[derive(Debug)]
 struct Node<T> {
@@ -29,13 +27,13 @@ struct LinkedList<T> {
     end: Option<NonNull<Node<T>>>,
 }
 
-impl<T> Default for LinkedList<T> {
+impl<T:PartialOrd + Clone> Default for LinkedList<T> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<T> LinkedList<T> {
+impl<T:PartialOrd + Clone> LinkedList<T> {
     pub fn new() -> Self {
         Self {
             length: 0,
@@ -71,13 +69,37 @@ impl<T> LinkedList<T> {
     }
 	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
 	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+        let mut merged_list = LinkedList::new();
+        let mut current_a = list_a.start;
+        let mut current_b = list_b.start;
+
+        while current_a.is_some() && current_b.is_some() {
+            let a_val = unsafe { &(*current_a.unwrap().as_ptr()).val };
+            let b_val = unsafe { &(*current_b.unwrap().as_ptr()).val };
+
+            if a_val <= b_val {
+                merged_list.add(a_val.to_owned());
+                current_a = unsafe { (*current_a.unwrap().as_ptr()).next };
+            } else {
+                merged_list.add(b_val.to_owned());
+                current_b = unsafe { (*current_b.unwrap().as_ptr()).next };
+            }
         }
-	}
+
+        while current_a.is_some() {
+            let a_val = unsafe { &(*current_a.unwrap().as_ptr()).val };
+            merged_list.add(a_val.to_owned());
+            current_a = unsafe { (*current_a.unwrap().as_ptr()).next };
+		//TODO
+	   }
+       while current_b.is_some() {
+            let b_val = unsafe { &(*current_b.unwrap().as_ptr()).val };
+            merged_list.add(b_val.to_owned());
+            current_b = unsafe { (*current_b.unwrap().as_ptr()).next };
+        }
+
+       merged_list
+   }
 }
 
 impl<T> Display for LinkedList<T>
