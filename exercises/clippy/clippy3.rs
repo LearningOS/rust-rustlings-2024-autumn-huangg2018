@@ -3,13 +3,13 @@
 // Here's a couple more easy Clippy fixes, so you can see its utility.
 //
 // Execute `rustlings hint clippy3` or use the `hint` watch subcommand for a hint.
-
+// 
 use std::mem;
 #[allow(unused_variables, unused_assignments)]
 fn main() {
     let my_option: Option<()> = None;
     if my_option.is_none() {
-        unimplemented!()
+        println!("my_option is None")
     }
 
     let my_arr = &[
